@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, filter } from 'rxjs/operators';
+import { map, filter} from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +9,8 @@ export class TaskService {
 
     private urlRequest:string ="http://localhost:5130/api/Tarea";
     TaskList: Tasks[] = [];
-    private TaskId: Tasks[] = [];
+    private TaskId: any[]=[];
+
 
     /* datos: Tasks[] = [
         {
@@ -36,7 +37,6 @@ export class TaskService {
     ]; */
 
     constructor(private http: HttpClient){
-        console.log("Servicio listo para usarse"); 
     }
 
     getTaskList():Tasks[]{
@@ -47,12 +47,10 @@ export class TaskService {
         return this.TaskList;
     }
 
-    getTask(id: number):Tasks[]{
-        /* this.http.get(this.urlRequest).subscribe((data: any) =>{
-            console.log(data);
-            this.TaskId = data 
-        }) */
-
+    getTask(id: number):any{
+        this.http.get(`http://localhost:5130/api/Tareas/${id}`).subscribe((data:any)=>{
+            this.TaskId = data
+        })
         return this.TaskId;
     }
 }
@@ -62,6 +60,6 @@ export interface Tasks {
     id: number;
     title: string;
     description: string;
-    isCompleted: boolean;
+    IsCompleted: boolean;
     createAt?: Date;
 }
