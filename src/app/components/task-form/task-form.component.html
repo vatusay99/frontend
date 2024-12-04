@@ -1,0 +1,32 @@
+<div class="container aminated fadeIn fast">
+    <div class="card mt-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <h5 class="card-title">{{title}}</h5>
+            </div>
+            <hr>
+            <form method="post" class="bg-luz.bg-gradiente mt-3">
+                <input type="hidden" name="id" value="?">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Titulo <span style="color: crimson;">*</span></label>
+                    <input type="text" class="form-control" id="title"
+                        placeholder="digite un titulo para la nueva tarea">
+                    <div id="titleHelp" class="form-text">el campo title es requerido</div>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">description </label>
+                    <input type="text" class="form-control" id="description" placeholder="Descripción de la tarea">
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="IsCompleted">
+                    <label class="form-check-label" for="IsCompleted">Tarea completada</label>
+                </div>
+                <div class="d-grid gap-2">
+
+                    <button type="submit" class="btn btn-primary btn">{{btnName}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,27 @@
+<div class="container aminated fadeIn fast">
+    <div class="card mt-4">
+        <div class="card-body">
+            <div class="">
+                <h5 class="card-title text-center">{{title}}</h5>
+            </div>
+            <hr>
+            <div class="card text-center">
+                <div class="card-header">
+                    Detalle de la tarea No {{getTaskById[0].id}}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{getTaskById[0].title}}</h5>
+                    <p class="card-text">{{getTaskById[0].description}}</p>
+                    <label class="form-check-label" for="IsCompleted">Tarea completada</label>&nbsp;&nbsp;
+                    <input type="checkbox" class="mb-3 form-check-input" id="IsCompleted" checked="{{getTaskById[0].IsCompleted}}" disabled>
+                    <br>
+                    <a [routerLink]="['/list-task']" class="btn btn-primary"> <- Regresar</a>
+                </div>
+                <div class="card-footer text-muted">
+                    Fecha de creacion: {{getTaskById[0].createAt}}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
