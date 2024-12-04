@@ -50,9 +50,7 @@
                 <tbody>
                     <tr *ngFor="let item of TaskList">
                         <th scope="row">
-                            <a [routerLink]="['/detail',item.id ]">
                             {{ item.id }}
-                            </a>
                         </th>
                         <td>{{ item.title }}</td>
                         <td>{{ item.description }}</td>

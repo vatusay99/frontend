@@ -5,20 +5,31 @@
                 <h5 class="card-title">{{title}}</h5>
             </div>
             <hr>
-            <form method="post" class="bg-luz.bg-gradiente mt-3">
+
+            <form class="bg-luz.bg-gradiente mt-3"  [formGroup]="myForm" (ngSubmit)="onSave()" autocomplete="off">
                 <input type="hidden" name="id" value="?">
                 <div class="mb-3">
                     <label for="title" class="form-label">Titulo <span style="color: crimson;">*</span></label>
-                    <input type="text" class="form-control" id="title"
-                        placeholder="digite un titulo para la nueva tarea">
-                    <div id="titleHelp" class="form-text">el campo title es requerido</div>
+                    <input type="text" 
+                            class="form-control" 
+                            formControlName="title"
+                            placeholder="digite un titulo para la nueva tarea">
+
+                    <div class="form-text alert alert-danger" role="alert" *ngIf="isValidFile('title')" >el campo title es requerido</div>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">description </label>
-                    <input type="text" class="form-control" id="description" placeholder="Descripción de la tarea">
+                    <input type="text" 
+                            class="form-control" 
+                            placeholder="Descripción de la tarea"
+                            formControlName="description">
+                    <div  class="form-text alert alert-danger" role="alert" *ngIf="isValidFile('description')"  >el campo description debe contener minimo 10 letras</div>
                 </div>
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="IsCompleted">
+                    <input type="checkbox" 
+                            class="form-check-input" 
+                            id="IsCompleted"
+                            formControlName="isCompleted">
                     <label class="form-check-label" for="IsCompleted">Tarea completada</label>
                 </div>
                 <div class="d-grid gap-2">

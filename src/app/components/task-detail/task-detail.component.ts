@@ -26,6 +26,8 @@ export class TaskDetailComponent {
       
       this.getTaskhById(params['id']);
       this.loading = false
+      console.log(this.task);
+      
     })
   }
 
