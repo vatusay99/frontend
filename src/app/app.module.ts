@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import  { FormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 
 //services
@@ -16,6 +17,7 @@ import { FooterComponent } from './components/shared/footer/footer.component';
 import { TaskListComponent } from './components/task-list/task-list.component';
 import { TaskFormComponent } from './components/task-form/task-form.component';
 import { TaskDetailComponent } from './components/task-detail/task-detail.component';
+import { LoadingComponent } from './components/shared/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -26,14 +28,17 @@ import { TaskDetailComponent } from './components/task-detail/task-detail.compon
     TaskListComponent,
     TaskFormComponent,
     TaskDetailComponent,
+    LoadingComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule,
   ],
   providers: [
     TaskService,
+    HttpClient,
     provideClientHydration(withEventReplay())
   ],
   bootstrap: [AppComponent]

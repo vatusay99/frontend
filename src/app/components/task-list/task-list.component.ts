@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TaskService, Tasks } from '../../services/task.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-task-list',
@@ -13,8 +14,17 @@ export class TaskListComponent {
   title: string = "Lista de tareas";
   TaskList: Tasks[] = [];
   filtro:boolean=false;
+  loading:boolean;
+  private urlRequest:string ="http://localhost:5130/api/Tareas";
 
-  constructor(private _taskService: TaskService){}
+  constructor(private _taskService: TaskService, private http: HttpClient){
+   
+    this.loading=true;
+
+    this.TaskList = this._taskService.getTaskList();
+    if(this.TaskList.length>0){ this.loading = false;}
+  
+  }
 
   ngOnInit(): void {
     // Obtener los datos del backend cuando el componente se inicialice
@@ -25,7 +35,7 @@ export class TaskListComponent {
       console.log(this.datos);  
     }); */
 
-    this.TaskList = this._taskService.getTaskList();
+    /* this.TaskList = this._taskService.getTaskList(); */
   } 
 
 

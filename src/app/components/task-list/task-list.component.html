@@ -1,6 +1,9 @@
+
+
 <div class="container aminated fadeIn fast">
+    <app-loading *ngIf="loading"></app-loading>
     <div class="card mt-4">
-        <div class="card-body">
+        <div class="card-body" *ngIf="!loading">
             <div class="d-flex justify-content-between">
                 <h5 class="card-title">{{title}}</h5>
                 <div class="input-group-text animated fadeIn fast">
