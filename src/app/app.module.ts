@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import  { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, provideHttpClient, withFetch  } from '@angular/common/http';
 
 
 //services
@@ -42,6 +42,7 @@ import { RouterModule } from '@angular/router';
   providers: [
     TaskService,
     HttpClient,
+    provideHttpClient(withFetch()),
     provideClientHydration(withEventReplay())
   ],
   bootstrap: [AppComponent]
