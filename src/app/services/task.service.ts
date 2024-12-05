@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { map, filter} from 'rxjs/operators';
 
 @Injectable({
@@ -53,6 +54,14 @@ export class TaskService {
         })
         return this.TaskId;
     }
+
+    createTask(task: ICreateTasks): Observable<any> 
+    { 
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        const body = JSON.stringify(task); 
+        return this.http.post(this.urlRequest, body, { headers })
+        
+    }
 }
 
 
@@ -62,4 +71,10 @@ export interface Tasks {
     description: string;
     IsCompleted: boolean;
     createAt?: Date;
+}
+
+export interface ICreateTasks {
+    title: string;
+    description: string;
+    IsCompleted: boolean;
 }

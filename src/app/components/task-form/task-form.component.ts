@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Tasks, TaskService } from '../../services/task.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-task-form',
@@ -9,6 +11,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   styleUrl: './task-form.component.css'
 })
 export class TaskFormComponent implements OnInit {
+
+  task: Observable<any>= new Observable();
 
   public title: string = "Fromulario creacion nueva tareas";
   btnName: string = "Crear tarea";
@@ -32,7 +36,7 @@ export class TaskFormComponent implements OnInit {
     isCompleted:[false],
 
   }); */
-  constructor(private fb: FormBuilder){
+  constructor(private fb: FormBuilder, private _taskService: TaskService){
   }
 
   ngOnInit(): void {
@@ -46,8 +50,9 @@ export class TaskFormComponent implements OnInit {
 
   onSave():void{
     if( this.myForm.invalid) return;
-    console.log(this.myForm);
-    
+    console.log(this.myForm.value);
+    this.task = this._taskService.createTask(this.myForm.value);
+    console.log({resp: this.task});
   }
 
 

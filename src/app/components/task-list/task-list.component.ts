@@ -16,7 +16,6 @@ export class TaskListComponent {
   TaskList: Tasks[] = [];
   filtro:boolean=false;
   loading:boolean;
-  private urlRequest:string ="http://localhost:5130/api/Tareas";
 
   constructor(private _taskService: TaskService, private router: Router){
    
