@@ -11,7 +11,12 @@ export class TaskService {
     private urlRequest:string ="http://localhost:5130/api/Tarea";
     TaskList: Tasks[] = [];
     private TaskId: any[]=[];
+    private respCreate: Observable<Tasks>=new Observable();
 
+    headers1 = new HttpHeaders({ 
+        'content-type': 'application/json',
+        'accept': 'text/plain'
+     });
 
     /* datos: Tasks[] = [
         {
@@ -40,12 +45,22 @@ export class TaskService {
     constructor(private http: HttpClient){
     }
 
-    getTaskList():Tasks[]{
-        this.http.get(this.urlRequest+"s")
+    // la metodo que se esta utilizando en la ultima version
+    getTasks():Observable<any>{
+        return this.http.get(`${this.urlRequest}s`, { headers: this.headers1})
+    }
+
+    /* getTaskList():Tasks[]{
+        this.http.get(this.urlRequest+"s", {headers: this.headers1})
             .subscribe( (data: any) => {
                 this.TaskList = data
             })
         return this.TaskList;
+    } */
+
+    addTask(modelo: ICreateTasks):Observable<any>
+    {
+        return this.http.post(`${this.urlRequest}s`, modelo ,{ headers: this.headers1})
     }
 
     getTask(id: number):any{
@@ -55,12 +70,35 @@ export class TaskService {
         return this.TaskId;
     }
 
-    createTask(task: ICreateTasks): Observable<any> 
+    // url : 'http://localhost:5130/api/Tareas/GetIsCompleted/true
+    getTaskIsComplete(isCompleted: boolean):Tasks[]{
+        this.http.get(`${this.urlRequest}s/GetIsCompleted/${isCompleted}`)
+                .subscribe( (data: any) => {
+                    this.TaskList = data
+                })
+        return this.TaskList;
+    }
+
+
+    createTask(task: Tasks): Observable<Tasks>
     { 
-        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        const headers = new HttpHeaders({ 
+            'content-type': 'application/json',
+            'accept': 'text/plain'
+         });
+         task.id = 0;
+         console.log({task: task});
         const body = JSON.stringify(task); 
-        return this.http.post(this.urlRequest, body, { headers })
-        
+        this.http.post(`${this.urlRequest}s`, body, { headers }).subscribe(resp =>{
+            console.log({resp: resp});
+            
+        })
+
+        return this.respCreate;
+    }
+
+    deleteTask(id:number): Observable<any>{
+        return this.http.delete(`${this.urlRequest}s/${id}`)
     }
 }
 
@@ -69,12 +107,12 @@ export interface Tasks {
     id: number;
     title: string;
     description: string;
-    IsCompleted: boolean;
+    isCompleted: boolean;
     createAt?: Date;
 }
 
 export interface ICreateTasks {
     title: string;
     description: string;
-    IsCompleted: boolean;
+    isCompleted: boolean;
 }

@@ -1,6 +1,6 @@
-import { Component, numberAttribute, Type } from '@angular/core';
+import { Component, numberAttribute, OnInit, Type } from '@angular/core';
 import { Tasks, TaskService } from '../../services/task.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { parseArgs } from 'util';
 
 
@@ -11,29 +11,41 @@ import { parseArgs } from 'util';
   templateUrl: './task-detail.component.html',
   styleUrl: './task-detail.component.css'
 })
-export class TaskDetailComponent {
+export class TaskDetailComponent implements OnInit  {
 
   public titulo:string = "Detalle de la tarea";
   detalleTarea:any;
   loading:boolean;
   task: any;
+  id: number = 0;
 
   constructor(private taskService: TaskService,
-     private route:ActivatedRoute,
+      
+     private router: Router
   ){
     this.loading=true;
-    this.route.params.subscribe( params =>{
-      
-      this.getTaskhById(params['id']);
-      this.loading = false
-      console.log(this.task);
-      
-    })
+    console.log("iniciado TaskDetailComponent en costructor")
+  }
+
+  ngOnInit(): void {
+    console.log("Iniciado ngOninit");
+    
+    
   }
 
   getTaskhById(id: number){
-    this.task = this.taskService.getTask(id)
+    this.task = this.taskService.getTask(id);
+    if(this.task.id){
+      console.log({task: this.task});
+      this.loading = false;
+      
+    }
 
+  }
+
+  goToList(){
+    console.log("estoy en goto list");
+    this.router.navigate([ '/list-task']);
   }
 
 }

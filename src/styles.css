@@ -26,3 +26,8 @@
   .fadeIn {
     animation-name: fadeIn;
   }
+
+  .active{
+    border-bottom: 2px white solid;
+    color: white;
+  }
