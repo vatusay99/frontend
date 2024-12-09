@@ -1,40 +1,36 @@
 <div class="container aminated fadeIn fast">
     <div class="card mt-4">
         <div class="card-body">
-            <div class="d-flex justify-content-between" >
+            <div class="d-flex justify-content-between">
                 <h5 class="card-title">{{titleForms}}</h5>
             </div>
             <hr>
 
-            <form class="bg-luz.bg-gradiente mt-3" [formGroup]="formularioEdit"  autocomplete="off">
-                <input type="hidden" formControlName="id">
+            <form class="bg-luz.bg-gradiente mt-3" [formGroup]="myFormEdit" autocomplete="off" >
+                <input type="hidden" formControlName="id" >
                 <div class="mb-3">
                     <label for="title" class="form-label">Titulo <span style="color: crimson;">*</span></label>
-                    <input type="text" 
-                            class="form-control" 
-                            formControlName="title"
-                            required="true"
-                    >
+                    <input type="text" class="form-control" formControlName="title" required>
 
-                    <div class="form-text alert alert-danger" role="alert">el campo title no debe estar vació</div>
-                </div>    
+                    <div class="form-text alert alert-danger" role="alert" *ngIf="isValidFile('title')" >el campo
+                        title no debe estar vació
+                    </div>
+                </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">description </label>
-                    <input type="text" 
-                            class="form-control" 
-                            placeholder="Descripción de la tarea"
-                            formControlName="description">
-                    <div  class="form-text alert alert-danger" role="alert" >el campo description debe contener minimo 10 letras</div>
+                    <input type="text" class="form-control" placeholder="Descripción de la tarea"
+                        formControlName="description">
+                    <div class="form-text alert alert-danger" role="alert" *ngIf="isValidFile('description')" >  <!-- *ngIf="isValidFile('description')" -->
+                        el campo description debe contener minimo 5 y es requerido
+                        letras
+                    </div>
                 </div>
                 <div class="mb-3 form-check">
-                    <input type="checkbox" 
-                            class="form-check-input" 
-                            id="isCompleted"
-                            formControlName="isCompleted">
+                    <input type="checkbox" class="form-check-input" id="isCompleted" formControlName="isCompleted">
                     <label class="form-check-label" for="isCompleted">Tarea completada</label>
                 </div>
-                <div class="d-grid gap-2" (click)="enviar()" > 
-                    <button type="button" class="btn btn-primary">{{btnEdit}}</button>
+                <div class="d-grid gap-2" (click)="enviar()">
+                    <button type="button" class="btn btn-primary" [disabled]="myFormEdit.invalid">{{btnEdit}}</button>
                 </div>
             </form>
         </div>

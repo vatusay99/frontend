@@ -41,7 +41,9 @@
                             class="form-control" 
                             placeholder="Descripción de la tarea"
                             formControlName="description">
-                    <div  class="form-text alert alert-danger" role="alert" *ngIf="isValidFile('description')"  >el campo description debe contener minimo 10 letras</div>
+                    <div  class="form-text alert alert-danger" role="alert" *ngIf="isValidFile('description')"  >
+                        el campo description debe contener minimo 5 letras y es requerido
+                    </div>
                 </div>
                 <div class="mb-3 form-check">
                     <input type="checkbox" 

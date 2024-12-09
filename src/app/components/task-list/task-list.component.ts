@@ -40,10 +40,10 @@ export class TaskListComponent implements OnInit {
 
   filtarTareasActivas(filtro: string){
     if(filtro == "activas")
-    { this.filtro = true}
+    { this.filtro = false}
     else if(filtro == "finalizadas")
     {
-      this.filtro = false;
+      this.filtro = true;
     }
     this.filterIfItComplete(this.filtro); 
   }

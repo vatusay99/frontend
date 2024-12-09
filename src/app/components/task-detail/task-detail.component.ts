@@ -32,13 +32,12 @@ export class TaskDetailComponent implements OnInit  {
   )
   {
     this.loading=true;
-    console.log("iniciado TaskDetailComponent en costructor")
   }
 
   ngOnInit(): void {
 
     let params:any = this.route.snapshot.params;
-    console.log({params: params});
+    /* console.log({params: params}); */
     this.id = params.id;
     this.getTaskhById(this.id);
 
@@ -56,7 +55,7 @@ export class TaskDetailComponent implements OnInit  {
           
         },
         error:error=>{
-          console.log({error: error});
+          /* console.log({error: error}); */
           
           let message = error.message;
           this.router.navigate(['/error/message']).then(()=>{

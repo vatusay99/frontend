@@ -1,16 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Form, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ICreateTasks, TaskService, Tasks } from '../../services/task.service';
-import { Observable } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TaskService } from '../../services/task.service';
 import Swal from 'sweetalert2';
-import { networkInterfaces } from 'os';
-import { error, log } from 'console';
 
 @Component({
   selector: 'app-edit-task',
   standalone: false,
-  
   templateUrl: './edit-task.component.html',
   styleUrl: './edit-task.component.css'
 })
@@ -18,28 +14,52 @@ export class EditTaskComponent implements OnInit {
 
   public titleForms: string = "Formilario de edicion de tareas.";
   public btnEdit:string = "Guardar cambios";
-  formularioEdit!: FormGroup;
+  /* formularioEdit!: FormGroup; */
   id:any;
   datos:any; 
+  task:any;
+  public myFormEdit: FormGroup = new FormGroup({
+    id: new FormControl(0,[ Validators.required],[]),
+    title: new FormControl('titulo',[ Validators.required],[]),
+    description: new FormControl('',[Validators.required, Validators.minLength(5)],[]),
+    isCompleted: new FormControl(false,[],[]),
+  })
 
-  form = {
+  /* form = {
     id: 0,
     title: '',
     description: "",
     isCompleted: false,
-  };
+  }; */
 
-  constructor(private _taskService: TaskService, 
-              private router: Router, 
-              private route: ActivatedRoute 
-            )
-  {}
+  
+  constructor(
+    private fb: FormBuilder,
+    private _taskService: TaskService, 
+    private router: Router, 
+    private route: ActivatedRoute,
+  ){ }
 
   ngOnInit(): void {
+
+    this.myFormEdit = this.fb.group({
+      id: [0, Validators.required],
+      title: ['', Validators.required],
+      description: ['', [Validators.required]],
+      isCompleted: [false, []]
+    });
+
     let params:any = this.route.snapshot.params;
     this.id = params.id;
     this.hacerPeticion(this.id);
-    this.formularioEdit = new FormGroup({
+    this.myFormEdit.reset(this.datos);
+    /* this.formularioEdit = new FormGroup({
+      id: new FormControl(
+        this.form.id,  
+        [
+          Validators.required
+        ]
+      ),
       title: new FormControl(
         this.form.title,  
         [
@@ -49,21 +69,21 @@ export class EditTaskComponent implements OnInit {
       description: new FormControl(
         this.form.description,
         [
+          Validators.required,
           Validators.minLength(5)
         ]
       ),
       isCompleted:new FormControl(
         this.form.isCompleted,
-        [
-
-        ]
-      )      
-
-    })
+      )    
+    }) */
   }
 
-  get title() { return this.formularioEdit.get('title')!;}
-
+  /* get id() { return this.formularioEdit.get('id')!;} */
+  /* get title() { return this.formularioEdit.get('title')!;}
+  get description() { return this.formularioEdit.get('description')!;}
+  get isCompleted() { return this.formularioEdit.get('isCompleted')!;}
+ */
   hacerPeticion(id:any)
   {
     this._taskService.getTaskById(id).subscribe({
@@ -71,10 +91,18 @@ export class EditTaskComponent implements OnInit {
         
         this.datos = data;
         console.log({datos: this.datos});
-        this.form.id = this.datos.id;
-        this.form.title = this.datos.title;
-        this.form.description = this.datos.description;
-        this.form.isCompleted = this.datos.isCompleted;
+        return this.datos;
+       /*  this.myFormEdit.id = this.
+        this.myFormEdit.id( this.datos.title);
+        this.myFormEdit.setValue(this.datos.description);
+        this.myFormEdit.setValue(this.datos.isCompleted); 
+        console.log({myform: this.myFormEdit.value}); */
+
+
+        /* this.formularioEdit.value.title = this.datos.title;
+        this.formularioEdit.value.description = this.datos.description;
+        this.formularioEdit.value.isCompleted = this.datos.isCompleted;
+        this.formularioEdit.value.id = this.datos.id; */
         
       },
       error:error=>{
@@ -95,10 +123,14 @@ export class EditTaskComponent implements OnInit {
 
   enviar(){
     
-    let task = this.formularioEdit.value;
+    console.log(this.myFormEdit.value);
+    /* if(this.myFormEdit.invalid) return 'disable'; */
+    let task = this.myFormEdit.value;
     task.id = this.id;
+    /*
     task.createAt = this.datos.createAt;
- /*    console.log({task: task}); */
+    console.log({task: this.formularioEdit.value.title});
+    console.log({id: this.formularioEdit.value.id}); */
 
     this._taskService.edittask(task, this.id ).subscribe({
       next:data=>{
@@ -109,8 +141,14 @@ export class EditTaskComponent implements OnInit {
           title: 'OK',
           text: 'la tarea se modifico con exito.'
         });
+        
+        this.myFormEdit.reset();
+        setTimeout(()=>{
+          this.router.navigate(['/list-task']).then(()=>{
+            window.location.reload();
+          })
 
-        this.formularioEdit.reset();
+        },2300)
 
       },
       error:error=>{
@@ -125,6 +163,11 @@ export class EditTaskComponent implements OnInit {
       }
     })
 
+  }
+
+  isValidFile(field: string){
+    return this.myFormEdit.controls[field].errors 
+    && this.myFormEdit.controls[field].touched;
   }
 
 }

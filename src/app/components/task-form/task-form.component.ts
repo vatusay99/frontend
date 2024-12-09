@@ -28,7 +28,7 @@ export class TaskFormComponent implements OnInit {
 
   public myForm: FormGroup = new FormGroup({
     title: new FormControl('titulo',[ Validators.required],[]),
-    description: new FormControl('',[Validators.minLength(5)],[]),
+    description: new FormControl('',[Validators.required, Validators.minLength(5)],[]),
     isCompleted: new FormControl(true,[],[]),
   })
 
@@ -40,8 +40,9 @@ export class TaskFormComponent implements OnInit {
     isCompleted:[false],
 
   }); */
+
   constructor(private fb: FormBuilder, private _taskService: TaskService,
-              private router: Router, private activatedRoute:ActivatedRoute,
+    private router: Router, private activatedRoute:ActivatedRoute,
   ){
     this.activatedRoute.params.subscribe( (params) =>{
       console.log({params: params});
