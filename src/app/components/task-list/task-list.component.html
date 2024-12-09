@@ -21,7 +21,7 @@
         <div class="card-body" *ngIf="TaskList.length>0">
             <div class="d-flex justify-content-between">
                 <h5 class="card-title">{{title}}</h5>
-                <div class="input-group-text animated fadeIn fast">
+                <div class="input-group-text animated fadeIn fast"> 
                     Tareas Activas&nbsp;<input type="radio" class="form-check-input mt-1 ml-1" name="isCompleted"
                         (change)="filtarTareasActivas(radioActiva.value)" value="activas" #radioActiva>&nbsp;&nbsp;
                     Tareas finalizadas &nbsp;<input type="radio" class="form-check-input mt-1 mr-1" name="isCompleted"

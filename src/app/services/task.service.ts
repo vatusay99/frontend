@@ -63,12 +63,10 @@ export class TaskService {
         return this.http.put(`${this.urlRequest}s/${id}`, modelo ,{ headers: this.headers1});
     }
 
-    getTaskIsComplete(isCompleted: boolean):Tasks[]{
-        this.http.get(`${this.urlRequest}s/GetIsCompleted/${isCompleted}`)
-                .subscribe( (data: any) => {
-                    this.TaskList = data
-                })
-        return this.TaskList;
+    getTaskIsComplete(isCompleted: boolean):Observable<any>{
+        console.log({url: this.urlRequest});
+        return this.http.get(`${this.urlRequest}s/GetIsCompleted/${isCompleted}`)
+
     }
 
 

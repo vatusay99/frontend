@@ -3,7 +3,7 @@ import { TaskService, Tasks } from '../../services/task.service';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2'
-import { error } from 'console';
+import { error, log } from 'console';
 
 @Component({
   selector: 'app-task-list',
@@ -45,8 +45,8 @@ export class TaskListComponent implements OnInit {
     {
       this.filtro = false;
     }
-    /* console.log(this.filtro); */
-    this.filterIfItComplete(this.filtro);
+    console.log(this.filtro);
+    this.filterIfItComplete(this.filtro); 
   }
 
   detalles(detailTask: Tasks){
@@ -76,8 +76,32 @@ export class TaskListComponent implements OnInit {
   }
 
   filterIfItComplete(isCompleted: boolean){
-    this.TaskList = this._taskService.getTaskIsComplete(isCompleted);
-    if(this.TaskList.length>0){ this.loading = false;}
+    this._taskService.getTaskIsComplete(isCompleted).subscribe({
+      next:data=>{
+        this.TaskList = data;
+
+        if(this.TaskList.length>=0){ this.loading = false;}
+
+      },
+      error: error=>
+      {
+        console.log("Error: ", error);
+        this.statusError = error.ok;
+        this.messageError = error.message;
+        this.statusText = error.statusText;
+        this.loading=false;
+
+        Swal.fire({
+          title: "Ops...",
+          text: "Algo salio mal!! intentelo mas tarde.",
+          icon: "error"
+        });
+          
+        this.router.navigate(['error/fallo de filtro.']).then(()=>{
+          window.location.reload();
+        })
+      }
+    })
   }
   
   delete(id: any){
