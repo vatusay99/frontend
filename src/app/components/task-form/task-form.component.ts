@@ -60,13 +60,13 @@ export class TaskFormComponent implements OnInit {
     && this.myForm.controls[field].touched;
   }
 
-  onSave():void{
+ /*  onSave():void{
     if( this.myForm.invalid) return;
     console.log(this.myForm.value);
     this.task = this._taskService.createTask(this.myForm.value);
     console.log({resp: this.task});
     this.router.navigate([ '/list-task'])
-  }
+  } */
 
 
   enviar()

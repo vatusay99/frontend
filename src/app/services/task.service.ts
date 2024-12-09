@@ -47,30 +47,22 @@ export class TaskService {
 
     // la metodo que se esta utilizando en la ultima version
     getTasks():Observable<any>{
-        return this.http.get(`${this.urlRequest}s`, { headers: this.headers1})
+        return this.http.get(`${this.urlRequest}s`, { headers: this.headers1});
     }
-
-    /* getTaskList():Tasks[]{
-        this.http.get(this.urlRequest+"s", {headers: this.headers1})
-            .subscribe( (data: any) => {
-                this.TaskList = data
-            })
-        return this.TaskList;
-    } */
 
     addTask(modelo: ICreateTasks):Observable<any>
     {
-        return this.http.post(`${this.urlRequest}s`, modelo ,{ headers: this.headers1})
+        return this.http.post(`${this.urlRequest}s`, modelo ,{ headers: this.headers1});
+    }
+   
+    getTaskById(id: any):Observable<any>{
+        return this.http.get(`${this.urlRequest}s/${id}`, {headers: this.headers1});
     }
 
-    getTask(id: number):any{
-        this.http.get(`http://localhost:5130/api/Tareas/${id}`).subscribe((data:any)=>{
-            this.TaskId = data
-        })
-        return this.TaskId;
+    edittask(modelo: ICreateTasks, id: number):Observable<any>{
+        return this.http.put(`${this.urlRequest}s/${id}`, modelo ,{ headers: this.headers1});
     }
 
-    // url : 'http://localhost:5130/api/Tareas/GetIsCompleted/true
     getTaskIsComplete(isCompleted: boolean):Tasks[]{
         this.http.get(`${this.urlRequest}s/GetIsCompleted/${isCompleted}`)
                 .subscribe( (data: any) => {
@@ -80,7 +72,7 @@ export class TaskService {
     }
 
 
-    createTask(task: Tasks): Observable<Tasks>
+    /* createTask(task: Tasks): Observable<Tasks>
     { 
         const headers = new HttpHeaders({ 
             'content-type': 'application/json',
@@ -95,7 +87,7 @@ export class TaskService {
         })
 
         return this.respCreate;
-    }
+    } */
 
     deleteTask(id:number): Observable<any>{
         return this.http.delete(`${this.urlRequest}s/${id}`)

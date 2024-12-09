@@ -34,7 +34,7 @@ export class TaskDetailComponent implements OnInit  {
   }
 
   getTaskhById(id: number){
-    this.task = this.taskService.getTask(id);
+    /* this.task = this.taskService.getTask(id); */
     if(this.task.id){
       console.log({task: this.task});
       this.loading = false;

@@ -19,6 +19,8 @@ import { TaskFormComponent } from './components/task-form/task-form.component';
 import { TaskDetailComponent } from './components/task-detail/task-detail.component';
 import { LoadingComponent } from './components/shared/loading/loading.component';
 import { RouterModule } from '@angular/router';
+import { EditTaskComponent } from './components/edit-task/edit-task.component';
+import { PageErrorsComponent } from './components/page-errors/page-errors.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { RouterModule } from '@angular/router';
     TaskFormComponent,
     TaskDetailComponent,
     LoadingComponent,
+    EditTaskComponent,
+    PageErrorsComponent,
   ],
   imports: [
     BrowserModule,
