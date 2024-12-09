@@ -19,10 +19,10 @@ export class TaskDetailComponent implements OnInit  {
   task: any;
   id: number = 0;
 
-  constructor(private taskService: TaskService,
-      
-     private router: Router
-  ){
+  constructor(private taskService: TaskService, 
+              private router: Router
+  )
+  {
     this.loading=true;
     console.log("iniciado TaskDetailComponent en costructor")
   }

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { TaskService, Tasks } from '../../services/task.service';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import e from 'express';
+import Swal from 'sweetalert2'
+import { error } from 'console';
 
 @Component({
   selector: 'app-task-list',
@@ -54,16 +55,6 @@ export class TaskListComponent implements OnInit {
 
   getList()
   {
-    /* this.loading=true;
-
-    this.TaskList = this._taskService.getTaskList();
-    console.log(this.TaskList);
-    if(this.TaskList.length>0){ this.loading = false;}
-    if(this.TaskList.length == 0 ) { 
-      console.log(this.TaskList);
-      this.loading = false;
-    } */
-
     this._taskService.getTasks().subscribe(
         {
           next:data=>{
@@ -89,11 +80,57 @@ export class TaskListComponent implements OnInit {
     if(this.TaskList.length>0){ this.loading = false;}
   }
   
-  delete(id: number){
+  delete(id: any){
     console.log("Eliminando desde el component .ts");
-    
-    this._taskService.deleteTask(id)
-    this.router.navigate([ '/list-task'])
+    this._taskService.deleteTask(id).subscribe({
+      next:resp=>{
+        console.log({resp: resp});
+
+        Swal.fire({
+          title: "¿Atencion se eliminara tarea?",
+          text: "esta seguro de querer eliminar esta tarea!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Si, Eliminar Tarea!"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Eliminado!",
+              text: "La tarea fue eliminada con exito.",
+              icon: "success"
+            });
+
+            this.router.navigate(['/list-task']).then(()=>{
+              window.location.reload();
+            })
+          }
+
+        });
+
+        
+
+      },
+      error:error=>{
+        console.log("Error: ", error);
+        this.statusError = error.ok;
+        this.messageError = error.message;
+        this.statusText = error.statusText;
+        this.loading=false;
+
+        Swal.fire({
+          title: "Ops...",
+          text: "Algo salio mal!! intentelo mas tarde.",
+          icon: "error"
+        });
+          
+        this.router.navigate(['error/Algo salio mal!! intentelo mas tarde.']).then(()=>{
+          window.location.reload();
+        })
+      }
+    })
+    /* this.router.navigate([ '/list-task']) */
   }
 
   Edit(item: Tasks){
