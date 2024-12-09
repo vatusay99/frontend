@@ -2,6 +2,7 @@ import { Component, numberAttribute, OnInit, Type } from '@angular/core';
 import { Tasks, TaskService } from '../../services/task.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { parseArgs } from 'util';
+import { error, log } from 'console';
 
 
 @Component({
@@ -16,11 +17,18 @@ export class TaskDetailComponent implements OnInit  {
   public titulo:string = "Detalle de la tarea";
   detalleTarea:any;
   loading:boolean;
-  task: any;
+  task:Tasks = {
+    id: 0,
+    title: "",
+    description: "",
+    isCompleted: false,
+    createAt: new Date()
+  };
   id: number = 0;
 
-  constructor(private taskService: TaskService, 
-              private router: Router
+  constructor(private _taskService: TaskService, 
+              private router: Router,
+              private route: ActivatedRoute 
   )
   {
     this.loading=true;
@@ -28,15 +36,34 @@ export class TaskDetailComponent implements OnInit  {
   }
 
   ngOnInit(): void {
-    console.log("Iniciado ngOninit");
+
+    let params:any = this.route.snapshot.params;
+    console.log({params: params});
+    this.id = params.id;
+    this.getTaskhById(this.id);
+
     
     
   }
 
   getTaskhById(id: number){
-    /* this.task = this.taskService.getTask(id); */
-    if(this.task.id){
-      console.log({task: this.task});
+    if(this.id){
+      this._taskService.getTaskById(id).subscribe({
+        next:(data:any)=>{
+          console.log({data: data});
+          let fecha = data.createAt 
+          this.task = data;
+          
+        },
+        error:error=>{
+          console.log({error: error});
+          
+          let message = error.message;
+          this.router.navigate(['/error/message']).then(()=>{
+            window.location.reload();
+          });
+        }
+      })
       this.loading = false;
       
     }
