@@ -64,28 +64,9 @@ export class TaskService {
     }
 
     getTaskIsComplete(isCompleted: boolean):Observable<any>{
-        console.log({url: this.urlRequest});
         return this.http.get(`${this.urlRequest}s/GetIsCompleted/${isCompleted}`)
 
     }
-
-
-    /* createTask(task: Tasks): Observable<Tasks>
-    { 
-        const headers = new HttpHeaders({ 
-            'content-type': 'application/json',
-            'accept': 'text/plain'
-         });
-         task.id = 0;
-         console.log({task: task});
-        const body = JSON.stringify(task); 
-        this.http.post(`${this.urlRequest}s`, body, { headers }).subscribe(resp =>{
-            console.log({resp: resp});
-            
-        })
-
-        return this.respCreate;
-    } */
 
     deleteTask(id:number): Observable<any>{
         return this.http.delete(`${this.urlRequest}s/${id}`)

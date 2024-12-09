@@ -45,7 +45,6 @@ export class TaskListComponent implements OnInit {
     {
       this.filtro = false;
     }
-    console.log(this.filtro);
     this.filterIfItComplete(this.filtro); 
   }
 
@@ -58,7 +57,6 @@ export class TaskListComponent implements OnInit {
     this._taskService.getTasks().subscribe(
         {
           next:data=>{
-            /* console.log("Data: ", data); */
             this.loading=false;
             this.TaskList = data;
             
