@@ -104,7 +104,7 @@ export class TaskFormComponent implements OnInit {
           text: "Algo salio mal!! intentelo mas tarde.",
           icon: "error"
         });
-        this.router.navigate(['/home']).then(()=>{
+        this.router.navigate(['/error/:message']).then(()=>{
           window.location.reload();
         })
       }

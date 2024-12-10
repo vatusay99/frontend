@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskService, Tasks } from '../../services/task.service';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import Swal from 'sweetalert2'
 import { error, log } from 'console';
 
@@ -67,6 +67,11 @@ export class TaskListComponent implements OnInit {
             this.messageError = error.message;
             this.statusText = error.statusText;
             this.loading=false;
+
+            this.router.navigate(['/error/:message']).then(()=>{
+              window.location.reload();
+            })
+            
           }
         }
     );
@@ -124,7 +129,7 @@ export class TaskListComponent implements OnInit {
               icon: "success"
             });
 
-            this.router.navigate(['/list-task']).then(()=>{
+            this.router.navigate(['error/Algo salio mal!! intentelo mas tarde.']).then(()=>{
               window.location.reload();
             })
           }
